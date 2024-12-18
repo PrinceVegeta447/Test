@@ -1,6 +1,11 @@
+import json
 from telegram import Update
 from telegram.ext import ContextTypes
-from play import characters, player_state  # Import the player state and character data
+from play import player_state  # Import player_state to track user data
+
+# Load characters from JSON file
+with open("game_data.json", "r") as file:
+    characters = json.load(file)
 
 # Handle /view_character command
 async def stats(update: Update, context: ContextTypes.DEFAULT_TYPE):
