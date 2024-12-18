@@ -27,11 +27,9 @@ def main():
     application.add_handler(CommandHandler("play", play))
     application.add_handler(CallbackQueryHandler(character_callback))
 
-    # Set webhook
-    application.bot.set_webhook(WEBHOOK_URL)
 
-    # Start handling the webhook
-    application.run_webhook(listen="0.0.0.0", port=5000, url_path=TOKEN)
+
+
 
 if __name__ == "__main__":
     main()
