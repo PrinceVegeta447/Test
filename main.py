@@ -9,6 +9,7 @@ with open("config.json", "r") as file:
     config = json.load(file)
 
 TOKEN = config["bot_token"]
+WEBHOOK_URL = config["webhook_url"]
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
@@ -27,9 +28,11 @@ def main():
     application.add_handler(CommandHandler("play", play))
     application.add_handler(CallbackQueryHandler(character_callback))
 
+    # Set webhook
+    application.bot.set_webhook("https://test-7t7u.onrender.com")
 
-
-
+    # Start handling the webhook
+    application.run_webhook(listen="0.0.0.0", port=5000, url_path=TOKEN)
 
 if __name__ == "__main__":
     main()
