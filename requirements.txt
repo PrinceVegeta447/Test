@@ -1,0 +1,4 @@
+python-telegram-bot==20.3  # For Telegram bot API
+python-dotenv==1.0.0       # To manage environment variables
+Flask==2.3.3               # For deployment (if using a web server for Render)
+gunicorn==21.2.0           # WSGI server for production deployment
