@@ -1,0 +1,36 @@
+{
+  "characters": {
+    "Goku": {
+      "health": 100,
+      "energy": 50,
+      "abilities": {
+        "Kamehameha": {
+          "damage": 25,
+          "energy_cost": 10
+        },
+        "Spirit Bomb": {
+          "damage": 40,
+          "energy_cost": 20
+        }
+      }
+    },
+    "Vegeta": {
+      "health": 100,
+      "energy": 50,
+      "abilities": {
+        "Galick Gun": {
+          "damage": 20,
+          "energy_cost": 8
+        },
+        "Final Flash": {
+          "damage": 50,
+          "energy_cost": 25
+        }
+      }
+    }
+  },
+  "game_settings": {
+    "max_rounds": 10,
+    "energy_regen": 5
+  }
+}
