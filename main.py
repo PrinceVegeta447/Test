@@ -9,7 +9,7 @@ with open("config.json", "r") as file:
     config = json.load(file)
 
 TOKEN = config["bot_token"]
-WEBHOOK_URL = config["webhook_url"]
+WEBHOOK_URL = config["https://test-7t7u.onrender.com"]
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
