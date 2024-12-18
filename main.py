@@ -1,7 +1,7 @@
 import json
 from telegram.ext import Application, CommandHandler, CallbackQueryHandler
 from play import play, character_callback
-from view import stats
+from view import viewch
 import logging
 
 # Load Config
@@ -26,7 +26,7 @@ def main():
     # Add handlers for different commands and callbacks
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CommandHandler("play", play))
-    application.add_handler(CommandHandler("stats", stats))  # Add the view_character handler
+    application.add_handler(CommandHandler("viewch", viewch))  # Add the view_character handler
     application.add_handler(CallbackQueryHandler(character_callback))
 
     # Start polling
