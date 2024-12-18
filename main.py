@@ -1,6 +1,6 @@
 from telegram import Update
 from telegram.ext import Application, CommandHandler, ContextTypes
-
+from play import play, character_callback
 # Load Config
 import json
 with open("config.json", "r") as file:
