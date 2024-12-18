@@ -1,7 +1,7 @@
 import json
 from telegram import Update
 from telegram.ext import ContextTypes
-from play import player_state  # Import player_state to track user data
+from play import player_state
 
 # Load characters from JSON file
 with open("game_data.json", "r") as file:
@@ -20,13 +20,12 @@ async def viewch(update: Update, context: ContextTypes.DEFAULT_TYPE):
     selected_character = player_state[user_id]["character"].lower()
     character_info = characters.get(selected_character)
 
-    # Handle missing character keys gracefully
     if not character_info:
         await update.message.reply_text("Error: Character data not found.")
         return
 
-    # Send detailed character stats to the player
-    character_details = (
+    # Prepare character details as caption
+    character_caption = (
         f"👤 **Character**: {character_info['name']}\n"
         f"💥 **Power**: {character_info['power']}\n"
         f"💪 **Strength**: {character_info['strength']}\n"
@@ -34,4 +33,10 @@ async def viewch(update: Update, context: ContextTypes.DEFAULT_TYPE):
         f"📖 **Bio**: {character_info['bio']}"
     )
 
-    await update.message.reply_text(character_details, parse_mode="Markdown")
+    # Send the character's image with stats in the caption
+    await context.bot.send_photo(
+        chat_id=update.message.chat_id,
+        photo=character_info["image_url"],
+        caption=character_caption,
+        parse_mode="Markdown"
+    )
