@@ -26,7 +26,7 @@ def main():
     # Add handlers for different commands and callbacks
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CommandHandler("play", play))
-    application.add_handler(CommandHandler("stats", view_character))  # Add the view_character handler
+    application.add_handler(CommandHandler("stats", stats))  # Add the view_character handler
     application.add_handler(CallbackQueryHandler(character_callback))
 
     # Start polling
