@@ -8,7 +8,7 @@ with open("game_data.json", "r") as file:
     characters = json.load(file)
 
 # Handle /view_character command
-async def stats(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def viewch(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.message.from_user.id
 
     # Check if the user has selected a character
@@ -17,14 +17,21 @@ async def stats(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
 
     # Get the character info
-    selected_character = player_state[user_id]["character"]
-    character_info = characters[selected_character]
+    selected_character = player_state[user_id]["character"].lower()
+    character_info = characters.get(selected_character)
 
-    # Send the character details to the player
+    # Handle missing character keys gracefully
+    if not character_info:
+        await update.message.reply_text("Error: Character data not found.")
+        return
+
+    # Send detailed character stats to the player
     character_details = (
-        f"Character: {character_info['name']}\n"
-        f"Power: {character_info['power']}\n"
-        f"Strength: {character_info['strength']}"
+        f"👤 **Character**: {character_info['name']}\n"
+        f"💥 **Power**: {character_info['power']}\n"
+        f"💪 **Strength**: {character_info['strength']}\n"
+        f"✨ **Skills**: {', '.join(character_info['skills'])}\n"
+        f"📖 **Bio**: {character_info['bio']}"
     )
 
-    await update.message.reply_text(character_details)
+    await update.message.reply_text(character_details, parse_mode="Markdown")
