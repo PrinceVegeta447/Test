@@ -1,8 +1,13 @@
+import json
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import ContextTypes
 
-# Global dictionary to track player states (simplified, can be replaced with database)
+# Global dictionary to track player states
 player_state = {}
+
+# Load characters from JSON file
+with open("game_data.json", "r") as file:
+    characters = json.load(file)
 
 # Handle /play command
 async def play(update, context: ContextTypes.DEFAULT_TYPE):
@@ -10,7 +15,7 @@ async def play(update, context: ContextTypes.DEFAULT_TYPE):
 
     # Check if the user has already started their journey
     if user_id in player_state and player_state[user_id]["started"]:
-        await update.message.reply_text("You have already started your journey!")
+        await update.message.reply_text("You have already started your journey!😺😺")
         return
 
     # If not started, initialize the player's state
@@ -18,14 +23,10 @@ async def play(update, context: ContextTypes.DEFAULT_TYPE):
 
     # Create the inline keyboard for character selection
     keyboard = [
-        [
-            InlineKeyboardButton("Goku", callback_data='goku'),
-            InlineKeyboardButton("Vegeta", callback_data='vegeta')
-        ],
-        [
-            InlineKeyboardButton("Frieza", callback_data='frieza'),
-            InlineKeyboardButton("Piccolo", callback_data='piccolo')
-        ]
+        [InlineKeyboardButton("Goku", callback_data="Goku"),
+         InlineKeyboardButton("Vegeta", callback_data="Vegeta")],
+        [InlineKeyboardButton("Frieza", callback_data="Frieza"),
+         InlineKeyboardButton("Piccolo", callback_data="Piccolo")]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
 
@@ -47,5 +48,5 @@ async def character_callback(update, context: ContextTypes.DEFAULT_TYPE):
     # Respond with a confirmation message
     await update.callback_query.answer()
     await update.callback_query.edit_message_text(
-        f"You have selected {character}. Your journey begins now!"
+        f"You have selected {characters[character]['name']}. Your journey begins now!"
     )
