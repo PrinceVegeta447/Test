@@ -1,36 +1,37 @@
 {
-  "characters": {
-    "Goku": {
-      "health": 100,
-      "energy": 50,
-      "abilities": {
-        "Kamehameha": {
-          "damage": 25,
-          "energy_cost": 10
-        },
-        "Spirit Bomb": {
-          "damage": 40,
-          "energy_cost": 20
-        }
-      }
-    },
-    "Vegeta": {
-      "health": 100,
-      "energy": 50,
-      "abilities": {
-        "Galick Gun": {
-          "damage": 20,
-          "energy_cost": 8
-        },
-        "Final Flash": {
-          "damage": 50,
-          "energy_cost": 25
-        }
-      }
-    }
+  "goku": {
+    "name": "Goku",
+    "power": "Ultra Instinct",
+    "strength": 15000,
+    "skills": ["Kamehameha", "Spirit Bomb", "Instant Transmission"],
+    "bio": "A Saiyan warrior who protects Earth and strives to become the strongest fighter."
   },
-  "game_settings": {
-    "max_rounds": 10,
-    "energy_regen": 5
+  "vegeta": {
+    "name": "Vegeta",
+    "power": "Super Saiyan Blue Evolution",
+    "strength": 14000,
+    "skills": ["Final Flash", "Galick Gun", "Big Bang Attack"],
+    "bio": "The Saiyan prince who is proud, determined, and always looking to surpass Goku."
+  },
+  "frieza": {
+    "name": "Frieza",
+    "power": "Golden Form",
+    "strength": 13000,
+    "skills": ["Death Beam", "Death Ball", "Nova Strike"],
+    "bio": "A tyrannical ruler of the universe who seeks immortality and ultimate power."
+  },
+  "piccolo": {
+    "name": "Piccolo",
+    "power": "Namekian Fusion",
+    "strength": 12000,
+    "skills": ["Special Beam Cannon", "Hellzone Grenade", "Regeneration"],
+    "bio": "A wise and powerful Namekian who is a mentor to Gohan and a protector of Earth."
+  },
+  "gohan": {
+    "name": "Gohan",
+    "power": "Beast Mode",
+    "strength": 13500,
+    "skills": ["Masenko", "Ultimate Kamehameha", "Burst Rush"],
+    "bio": "Goku's eldest son who combines intelligence with incredible fighting potential."
   }
 }
