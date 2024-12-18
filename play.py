@@ -1,38 +1,51 @@
 import json
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
-from telegram.ext import CallbackContext, ContextTypes
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup
+from telegram.ext import ContextTypes
 
-# Load game data
-with open("game_data.json", "r") as file:
-    game_data = json.load(file)
+# Global dictionary to keep track of player states (for simplicity)
+player_state = {}
 
-# Global variable to track player choices
-player_choices = {}
+# Handle /play command
+async def play(update, context: ContextTypes.DEFAULT_TYPE):
+    user_id = update.message.from_user.id
 
-# Play command: Show inline buttons for character selection
-async def play(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    characters = list(game_data["characters"].keys())
+    # Check if the user already started the game
+    if user_id in player_state and player_state[user_id]["started"]:
+        await update.message.reply_text("You have already started your journey!")
+        return
+
+    # Set the initial state for the player
+    player_state[user_id] = {"started": True, "character": None}
+
+    # Create inline keyboard for selecting character
     keyboard = [
-        [InlineKeyboardButton(char, callback_data=char)] for char in characters
+        [
+            InlineKeyboardButton("Goku", callback_data='goku'),
+            InlineKeyboardButton("Vegeta", callback_data='vegeta')
+        ],
+        [
+            InlineKeyboardButton("Frieza", callback_data='frieza'),
+            InlineKeyboardButton("Piccolo", callback_data='piccolo')
+        ]
     ]
-
     reply_markup = InlineKeyboardMarkup(keyboard)
+
     await update.message.reply_text(
-        "Choose your character:", reply_markup=reply_markup
+        "Welcome to your Dragon Ball Z adventure! Choose your character:",
+        reply_markup=reply_markup
     )
 
-# Handle inline button selection
-async def character_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    query = update.callback_query
-    await query.answer()
+# Handle character selection callback
+async def character_callback(update, context: ContextTypes.DEFAULT_TYPE):
+    user_id = update.callback_query.from_user.id
+    character = update.callback_query.data
 
-    user_id = query.from_user.id
-    selected_character = query.data
+    # Update player state with the chosen character
+    if user_id in player_state:
+        player_state[user_id]["character"] = character
 
-    if selected_character in game_data["characters"]:
-        player_choices[user_id] = selected_character
-        await query.edit_message_text(
-            f"You chose {selected_character}! Type /battle to begin."
-        )
-    else:
-        await query.edit_message_text("Invalid choice. Please use /play to select again.")
+    # Respond with a confirmation message
+    await update.callback_query.answer()
+    await update.callback_query.edit_message_text(
+        f"You have selected {character}. Your journey begins now!"
+    )
