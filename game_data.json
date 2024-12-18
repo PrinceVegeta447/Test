@@ -4,17 +4,18 @@
     "power": "Ultra Instinct",
     "strength": 15000,
     "skills": ["Kamehameha", "Spirit Bomb", "Instant Transmission"],
-    "bio": "A Saiyan warrior who protects Earth and strives to become the strongest fighter."
-    "image_url": "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/44365388-c6fa-4ded-9b9f-aacfced5df43/dg2hc1m-cadc12a8-4a49-46dc-b9ad-c78b4278a661.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzQ0MzY1Mzg4LWM2ZmEtNGRlZC05YjlmLWFhY2ZjZWQ1ZGY0M1wvZGcyaGMxbS1jYWRjMTJhOC00YTQ5LTQ2ZGMtYjlhZC1jNzhiNDI3OGE2NjEucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.h3heM5-VfJUZxZlqpsPUcZzNk81j45f1IBPPhpvd96I"
+    "bio": "A Saiyan warrior who protects Earth and strives to become the strongest fighter.",
+    "image_url": "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/44365388-c6fa-4ded-9b9f-aacfced5df43/dg2hc1m-cadc12a8-4a49-46dc-b9ad-c78b4278a661.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9jaiI6W1t7InBhdGgiOiJcL2ZcLzQ0MzY1Mzg4LWM2ZmEtNGRlZC05YjlmLWFhY2ZjZWQ1ZGY0M1wvZGcyaGMxbS1jYWRjMTJhOC00YTQ5LTQ2ZGMtYjlhZC1jNzhiNDI3OGE2NjEucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.h3heM5-VfJUZxZlqpsPUcZzNk81j45f1IBPPhpvd96I"
   },
   "vegeta": {
     "name": "Vegeta",
     "power": "Super Saiyan Blue Evolution",
     "strength": 14000,
     "skills": ["Final Flash", "Galick Gun", "Big Bang Attack"],
-    "bio": "The Saiyan prince who is proud, determined, and always looking to surpass Goku."
+    "bio": "The Saiyan prince who is proud, determined, and always looking to surpass Goku.",
+    "image_url": "https://example.com/vegeta.png"
   },
-  "frieza": {
+  "freiza":{
     "name": "Frieza",
     "power": "Golden Form",
     "strength": 13000,
