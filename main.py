@@ -1,5 +1,5 @@
 from telegram import Update
-from telegram.ext import Updater, CommandHandler, CallbackContext
+from telegram.ext import Application, CommandHandler, ContextTypes
 
 # Load Config
 import json
@@ -9,20 +9,19 @@ with open("config.json", "r") as file:
 TOKEN = config["bot_token"]
 
 # Start Command
-def start(update: Update, context: CallbackContext):
-    update.message.reply_text("Welcome to the Dragon Ball Z Game Bot! Type /play to start.")
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text("Welcome to the Dragon Ball Z Game Bot! Type /play to start.")
 
 # Main Function
 def main():
-    updater = Updater(TOKEN)
-    dispatcher = updater.dispatcher
+    # Create the application
+    application = Application.builder().token(TOKEN).build()
 
-    # Command Handlers
-    dispatcher.add_handler(CommandHandler("start", start))
+    # Add command handlers
+    application.add_handler(CommandHandler("start", start))
 
-    # Start Bot
-    updater.start_polling()
-    updater.idle()
+    # Start the bot
+    application.run_polling()
 
 if __name__ == "__main__":
     main()
