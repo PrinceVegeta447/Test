@@ -14,7 +14,7 @@ def add_item(user_id, item):
     else:
         user_inventory[user_id][item] = 1
 
-def get_inventory(user_id):
+def inventory(user_id):
     """Get the user's inventory."""
     initialize_inventory(user_id)
     return user_inventory[user_id]
