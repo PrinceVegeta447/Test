@@ -35,6 +35,9 @@ def main():
     application.add_handler(CallbackQueryHandler(character_callback))
     application.add_handler(CommandHandler("explore", explore))
     application.add_handler(CommandHandler("inventory", inventory))
+    application.add_handler(CallbackQueryHandler(battle, pattern=r"^battle_"))
+    application.add_handler(CallbackQueryHandler(attack, pattern=r"^attack_"))
+    application.add_handler(CallbackQueryHandler(defend, pattern=r"^defend_"))
     
     # Start polling
     application.run_polling()
