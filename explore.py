@@ -1,19 +1,24 @@
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.ext import CommandHandler, CallbackContext
-import random
+import random  # Import inventory functions
 
-# Example items with emojis
+# Define the developer's Telegram user ID (replace with your actual ID)
+DEVELOPER_ID = 123456789  # Your developer Telegram ID
+
+# Example items and enemies
 items = ["Zeni 💰", "Senzu Bean 🍚"]
 enemies = ["Frieza 👑", "Cell 🟢", "Majin Buu 🍬"]
 
-# Explore function with a 1 in 5000 chance for Dragon Ball
+# Explore function with inventory logic
 async def explore(update: Update, context: CallbackContext):
+    user_id = update.message.from_user.id
     # Randomly decide what happens during exploration
     event_type = random.choice(["item", "enemy", "nothing"])
 
     # 1 in 5000 chance of finding Dragon Ball
-    if random.randint(1, 5000) == 1:
+    if random.randint(1, 5000) == 300:
         item_found = "Dragon Ball 🟡"
+        add_item(user_id, item_found)  # Add Dragon Ball to inventory
         await update.message.reply_text(
             f"✨ Congratulations! You found a *{item_found}* during your exploration! ✨\n\n"
             "What a rare and amazing find! Keep exploring to find more treasures! 😎",
@@ -21,6 +26,7 @@ async def explore(update: Update, context: CallbackContext):
         )
     elif event_type == "item":
         item_found = random.choice(items)
+        add_item(user_id, item_found)  # Add the found item to inventory
         await update.message.reply_text(
             f"✨ You found a *{item_found}* during your exploration! ✨\n\n"
             "What a lucky find! Keep exploring to find more treasures! 😎",
@@ -47,7 +53,44 @@ async def explore(update: Update, context: CallbackContext):
             parse_mode="Markdown"
         )
 
-# Handler for the explore command
-def start_exploration(application):
-    # Register the explore command handler
+# View Inventory Command
+async def inventory(update: Update, context: CallbackContext):
+    user_id = update.message.from_user.id
+    user_inv = get_inventory(user_id)
+    if not user_inv:
+        await update.message.reply_text("Your inventory is empty! Start exploring to find items! 🍀")
+    else:
+        inventory_items = "\n".join([f"{item}: {count}" for item, count in user_inv.items()])  # Display item and its count
+        await update.message.reply_text(f"Your inventory:\n{inventory_items}")
+
+# Add Item Command (Developer Only)
+async def add_item_command(update: Update, context: CallbackContext):
+    user_id = update.message.from_user.id
+    if user_id != DEVELOPER_ID:
+        await update.message.reply_text("❌ You don't have permission to use this command!")
+        return
+
+    # Example to add an item to the developer's inventory
+    item = "Zeni 💰"  # Example item
+    add_item(user_id, item)
+    await update.message.reply_text(f"✅ Item '{item}' added to your inventory!")
+
+# Clear Inventory Command (Developer Only)
+async def clear_inventory_command(update: Update, context: CallbackContext):
+    user_id = update.message.from_user.id
+    if user_id != DEVELOPER_ID:
+        await update.message.reply_text("❌ You don't have permission to use this command!")
+        return
+
+    # Clear the developer's inventory
+    clear_inventory(user_id)
+    await update.message.reply_text("✅ Your inventory has been cleared!")
+
+# Handler for the explore, inventory, add item and clear inventory commands
+def start_commands(application):
     application.add_handler(CommandHandler("explore", explore))
+    application.add_handler(CommandHandler("inventory", inventory))
+    
+    # Developer only commands
+    application.add_handler(CommandHandler("add_item", add_item_command))
+    application.add_handler(CommandHandler("clear_inventory", clear_inventory_command))
