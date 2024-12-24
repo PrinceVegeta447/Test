@@ -24,8 +24,8 @@ async def viewch(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text("Error: Character data not found.")
         return
 
-    # Prepare character details as caption
-    character_caption = (
+    # Prepare character details as a message
+    character_details = (
         f"👤 **Character**: {character_info['name']}\n"
         f"💥 **Power**: {character_info['power']}\n"
         f"💪 **Strength**: {character_info['strength']}\n"
@@ -33,10 +33,5 @@ async def viewch(update: Update, context: ContextTypes.DEFAULT_TYPE):
         f"📖 **Bio**: {character_info['bio']}"
     )
 
-    # Send the character's image with stats in the caption
-    await context.bot.send_photo(
-        chat_id=update.message.chat_id,
-        photo=character_info["image_url"],
-        caption=character_caption,
-        parse_mode="Markdown"
-    )
+    # Send character details as a message
+    await update.message.reply_text(character_details, parse_mode="Markdown")
