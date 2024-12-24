@@ -4,7 +4,7 @@ from play import play, character_callback
 from view import viewch
 from explore import explore, inventory
 from inventory import add_item, get_inventory
-from battle import create_battle_ui
+from battle import create_battle_ui, handle_battle_action
 import logging
 
 # Load Config
