@@ -35,9 +35,6 @@ def main():
     application.add_handler(CommandHandler("explore", explore))
     application.add_handler(CommandHandler("inventory", inventory))
     
-    # Developer only commands
-    application.add_handler(CommandHandler("add_item", add_item_command))
-    application.add_handler(CommandHandler("clear_inventory", clear_inventory_command))
     # Start polling
     application.run_polling()
 
