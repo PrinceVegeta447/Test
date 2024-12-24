@@ -2,7 +2,7 @@ import json
 from telegram.ext import Application, CommandHandler, CallbackQueryHandler
 from play import play, character_callback
 from view import viewch
-from explore import explore
+from explore import explore, battle, battle_button
 import logging
 
 # Load Config
