@@ -141,5 +141,16 @@ async def battle(update: Update, context: CallbackContext):
         # Update the battle message with the result of the action
         await query.edit_message_text(battle_result, parse_mode="Markdown")
 
-    # Add handler for battle actions (Attack, Defend, Run)
-    application.add_handler(CallbackQueryHandler(handle_battle_action, pattern=r"^(attack|defend|run)$"))
+    # Command to view inventory
+  async def inventory(update: Update, context: CallbackContext):
+    user_id = update.message.from_user.id
+    user_inv = get_inventory(user_id)  # Get the user's inventory
+
+    if user_inv:
+        items_str = "\n".join([f"{item}: {count}" for item, count in user_inv.items()])
+        await update.message.reply_text(
+            f"Your inventory:\n\n{items_str}",
+            parse_mode="Markdown"
+        )
+    else:
+        await update.message.reply_text("Your inventory is empty. Keep exploring to find items! 🍀")
