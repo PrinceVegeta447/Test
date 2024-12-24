@@ -56,7 +56,7 @@ async def explore(update: Update, context: CallbackContext):
 # View Inventory Command
 async def inventory(update: Update, context: CallbackContext):
     user_id = update.message.from_user.id
-    user_inv = get_inventory(user_id)
+    user_inv = inventory(user_id)
     if not user_inv:
         await update.message.reply_text("Your inventory is empty! Start exploring to find items! 🍀")
     else:
