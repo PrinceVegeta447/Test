@@ -3,7 +3,7 @@ from telegram.ext import Application, CommandHandler, CallbackQueryHandler, Call
 from play import play, character_callback
 from view import viewch
 from explore import explore, inventory
-from inventory import add_item, get_inventory, clear_inventory
+from inventory import add_item, get_inventory
 import logging
 
 # Load Config
