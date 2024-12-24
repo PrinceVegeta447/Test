@@ -85,12 +85,3 @@ async def clear_inventory_command(update: Update, context: CallbackContext):
     # Clear the developer's inventory
     clear_inventory(user_id)
     await update.message.reply_text("✅ Your inventory has been cleared!")
-
-# Handler for the explore, inventory, add item and clear inventory commands
-def start_commands(application):
-    application.add_handler(CommandHandler("explore", explore))
-    application.add_handler(CommandHandler("inventory", inventory))
-    
-    # Developer only commands
-    application.add_handler(CommandHandler("add_item", add_item_command))
-    application.add_handler(CommandHandler("clear_inventory", clear_inventory_command))
