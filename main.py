@@ -4,7 +4,8 @@ from play import play, character_callback
 from view import viewch
 from explore import explore, inventory
 from inventory import add_item, get_inventory
-import logging
+from battle import 
+import logging battle, attack, defend
 
 # Load Config
 with open("config.json", "r") as file:
