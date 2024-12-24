@@ -1,9 +1,8 @@
+# explore.py
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.ext import CommandHandler, CallbackContext
-import random  # Import inventory functions
-from inventory import add_item, get_inventory, clear_inventory
-# Define the developer's Telegram user ID (replace with your actual ID)
-DEVELOPER_ID = 123456789  # Your developer Telegram ID
+import random
+from inventory import add_item, get_inventory  # Importing the get_inventory function
 
 # Example items and enemies
 items = ["Zeni 💰", "Senzu Bean 🍚"]
@@ -16,7 +15,7 @@ async def explore(update: Update, context: CallbackContext):
     event_type = random.choice(["item", "enemy", "nothing"])
 
     # 1 in 5000 chance of finding Dragon Ball
-    if random.randint(1, 5000) == 300:
+    if random.randint(1, 5000) == 1:
         item_found = "Dragon Ball 🟡"
         add_item(user_id, item_found)  # Add Dragon Ball to inventory
         await update.message.reply_text(
@@ -53,35 +52,16 @@ async def explore(update: Update, context: CallbackContext):
             parse_mode="Markdown"
         )
 
-# View Inventory Command
+# Command to view inventory
 async def inventory(update: Update, context: CallbackContext):
     user_id = update.message.from_user.id
-    user_inv = inventory(user_id)
-    if not user_inv:
-        await update.message.reply_text("Your inventory is empty! Start exploring to find items! 🍀")
+    user_inv = get_inventory(user_id)  # Get the user's inventory
+
+    if user_inv:
+        items_str = "\n".join([f"{item}: {count}" for item, count in user_inv.items()])
+        await update.message.reply_text(
+            f"Your inventory:\n\n{items_str}",
+            parse_mode="Markdown"
+        )
     else:
-        inventory_items = "\n".join([f"{item}: {count}" for item, count in user_inv.items()])  # Display item and its count
-        await update.message.reply_text(f"Your inventory:\n{inventory_items}")
-
-# Add Item Command (Developer Only)
-async def add_item_command(update: Update, context: CallbackContext):
-    user_id = update.message.from_user.id
-    if user_id != DEVELOPER_ID:
-        await update.message.reply_text("❌ You don't have permission to use this command!")
-        return
-
-    # Example to add an item to the developer's inventory
-    item = "Zeni 💰"  # Example item
-    add_item(user_id, item)
-    await update.message.reply_text(f"✅ Item '{item}' added to your inventory!")
-
-# Clear Inventory Command (Developer Only)
-async def clear_inventory_command(update: Update, context: CallbackContext):
-    user_id = update.message.from_user.id
-    if user_id != DEVELOPER_ID:
-        await update.message.reply_text("❌ You don't have permission to use this command!")
-        return
-
-    # Clear the developer's inventory
-    clear_inventory(user_id)
-    await update.message.reply_text("✅ Your inventory has been cleared!")
+        await update.message.reply_text("Your inventory is empty. Keep exploring to find items! 🍀")
