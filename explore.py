@@ -1,64 +1,53 @@
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
-from telegram.ext import CommandHandler, CallbackContext, CallbackQueryHandler
+from telegram.ext import CommandHandler, CallbackContext
 import random
 
-# Example items and enemies
-items = ["Dragon Ball", "Zeni", "Senzu Bean"]
-enemies = ["Frieza", "Cell", "Majin Buu"]
+# Example items with emojis
+items = ["Zeni 💰", "Senzu Bean 🍚"]
+enemies = ["Frieza 👑", "Cell 🟢", "Majin Buu 🍬"]
 
-# Battle function
-async def battle(update: Update, context: CallbackContext, enemy: str):
-    # Simulate a simple battle outcome
-    user_health = 100
-    enemy_health = 100
-    while user_health > 0 and enemy_health > 0:
-        # Simulate a turn in the battle
-        user_attack = random.randint(10, 20)
-        enemy_attack = random.randint(5, 15)
-        
-        enemy_health -= user_attack
-        user_health -= enemy_attack
-        
-        # Send updates about the battle
-        await update.message.reply_text(f"You attacked {enemy} for {user_attack} damage! {enemy} has {enemy_health} HP left.")
-        await update.message.reply_text(f"{enemy} attacked you for {enemy_attack} damage! You have {user_health} HP left.")
-        
-        if user_health <= 0:
-            await update.message.reply_text("You lost the battle! Try again.")
-            return
-        elif enemy_health <= 0:
-            await update.message.reply_text(f"You defeated {enemy}! Congratulations!")
-            return
-
-# Handle the battle button press
-async def battle_button(update: Update, context: CallbackContext):
-    query = update.callback_query
-    await query.answer()  # Acknowledge the button press
-    
-    # Get the enemy name from the callback data
-    enemy = query.data
-    print(f"Battle initiated with: {enemy}")  # Debugging line to check the enemy name
-
-    # Start the battle
-    await battle(update, context, enemy)
-
-# Explore function
+# Explore function with a 1 in 5000 chance for Dragon Ball
 async def explore(update: Update, context: CallbackContext):
     # Randomly decide what happens during exploration
     event_type = random.choice(["item", "enemy", "nothing"])
-    
-    if event_type == "item":
+
+    # 1 in 5000 chance of finding Dragon Ball
+    if random.randint(1, 5000) == 1:
+        item_found = "Dragon Ball 🟡"
+        await update.message.reply_text(
+            f"✨ Congratulations! You found a *{item_found}* during your exploration! ✨\n\n"
+            "What a rare and amazing find! Keep exploring to find more treasures! 😎",
+            parse_mode="Markdown"
+        )
+    elif event_type == "item":
         item_found = random.choice(items)
-        await update.message.reply_text(f"You found a {item_found}!")
+        await update.message.reply_text(
+            f"✨ You found a *{item_found}* during your exploration! ✨\n\n"
+            "What a lucky find! Keep exploring to find more treasures! 😎",
+            parse_mode="Markdown"
+        )
     elif event_type == "enemy":
         enemy_encountered = random.choice(enemies)
         
         # Create an inline button for battle
         keyboard = [
-            [InlineKeyboardButton("Battle", callback_data=enemy_encountered)]  # Use the enemy's name as callback data
+            [InlineKeyboardButton(f"💥 Battle {enemy_encountered}", callback_data=enemy_encountered)]  # Button text with emoji
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
         
-        await update.message.reply_text(f"You encountered {enemy_encountered}! Prepare to fight!", reply_markup=reply_markup)
+        await update.message.reply_text(
+            f"⚠️ Oh no! You've encountered *{enemy_encountered}*! ⚠️\n"
+            "Prepare yourself for battle! 💪",
+            parse_mode="Markdown",
+            reply_markup=reply_markup
+        )
     else:
-        await update.message.reply_text("You explored the area but found nothing. Keep searching!")
+        await update.message.reply_text(
+            "🔍 You explored the area but found nothing this time. Better luck next time! 🍀",
+            parse_mode="Markdown"
+        )
+
+# Handler for the explore command
+def start_exploration(application):
+    # Register the explore command handler
+    application.add_handler(CommandHandler("explore", explore))
