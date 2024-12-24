@@ -30,7 +30,6 @@ def main():
     application.add_handler(CommandHandler("viewch", viewch))  # Add the view_character handler
     application.add_handler(CallbackQueryHandler(character_callback))
     application.add_handler(CommandHandler("explore", explore))
-    application.add_handler(CallbackQueryHandler(battle_button))
     # Start polling
     application.run_polling()
 
