@@ -3,7 +3,7 @@ from telegram.ext import Application, CommandHandler, CallbackQueryHandler, Call
 from play import play, character_callback
 from view import viewch
 from explore import explore
-from inventory import add_item, inventory 
+from inventory import add_item, get_inventory, clear_inventory
 import logging
 
 # Load Config
@@ -11,6 +11,8 @@ with open("config.json", "r") as file:
     config = json.load(file)
 
 TOKEN = config["bot_token"]
+
+
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
