@@ -6,10 +6,10 @@ import random
 def create_battle_ui(player_hp, enemy_hp, enemy_name):
     battle_message = (
         f"⚔️ You are battling *{enemy_name}*! ⚔️\n\n"
-        "🛡️ *Your Stats:*\n"
-        "Health: 
-        "💥 *Enemy Stats:*\n"
-        "Health: 100\n"
+        f"🛡️ *Your Stats:*\n"
+        f"Health: {player_hp}\n\n"
+        f"💥 *Enemy Stats:*\n"
+        f"Health: {enemy_hp}\n"
         "Attack: 15\n\n"
         "Choose your action wisely!"
     )
@@ -36,7 +36,7 @@ async def process_battle_action(action, player_data, enemy_data):
             )
 
         # Enemy's turn to attack
-        enemy_attack = random.randint(5, enemy_data["attack"])
+        enemy_attack = random.randint(5, 15)
         player_data["health"] -= enemy_attack
         if player_data["health"] <= 0:
             return (
@@ -69,7 +69,9 @@ async def handle_battle_action(update: Update, context: CallbackContext):
 
     # Fetch player and enemy data from context
     player_data = context.user_data.get("player_data", {"health": 100})
-    enemy_data = context.user_data.get("enemy_data")
+    enemy_data = context.user_data.get(
+        "enemy_data", {"health": 100, "name": "Enemy"}
+    )
 
     action = query.data  # Action from callback_data
     battle_result = await process_battle_action(action, player_data, enemy_data)
@@ -77,5 +79,6 @@ async def handle_battle_action(update: Update, context: CallbackContext):
     # Update the battle message with the result of the action
     await query.edit_message_text(battle_result, parse_mode="Markdown")
 
-    # Update context with the latest player data
+    # Update context with the latest player and enemy data
     context.user_data["player_data"] = player_data
+    context.user_data["enemy_data"] = enemy_data
