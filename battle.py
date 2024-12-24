@@ -70,11 +70,18 @@ async def handle_battle_action(update: Update, context: CallbackContext):
     query = update.callback_query
     await query.answer()  # Acknowledge the button press
 
+    # Debugging: Log the received callback data
+    print(f"Callback Data: {query.data}")
+
     # Fetch player and enemy data from context
     player_data = context.user_data.get("player_data", {"health": 100, "name": "Player"})
     enemy_data = context.user_data.get("enemy_data", {"health": 100, "name": "Enemy"})
 
     action = query.data  # Extract action from the button's callback data
+
+    # Debugging: Log player and enemy data
+    print(f"Player Data: {player_data}")
+    print(f"Enemy Data: {enemy_data}")
 
     # Check if action is valid and execute
     if action not in ["attack", "flee"]:
