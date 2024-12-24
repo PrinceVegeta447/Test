@@ -44,22 +44,10 @@ async def explore(update: Update, context: CallbackContext):
         # Generate battle UI using create_battle_ui from battle.py
         player_hp = 100
         enemy_hp = 100
-        battle_message, reply_markup = create_battle_ui(player_hp, enemy_hp)
+        battle_message, reply_markup = create_battle_ui(player_hp, enemy_hp, enemy_encountered)
 
         await update.message.reply_text(
-            battle_message,
-            parse_mode="Markdown",
-            reply_markup=reply_markup
-        )
-
-        # Create an inline button for battle
-        keyboard = [
-            [InlineKeyboardButton(f"💥 Battle {enemy_encountered}", callback_data="start_battle")]  # Button text with emoji
-        ]
-        reply_markup = InlineKeyboardMarkup(keyboard)
-
-        await update.message.reply_text(
-            f"⚠️ Oh no! You've encountered *{enemy_encountered}*! ⚠️\n"
+            f"{battle_message}\n\n⚠️ Oh no! You've encountered *{enemy_encountered}*! ⚠️\n"
             "Prepare yourself for battle! 💪",
             parse_mode="Markdown",
             reply_markup=reply_markup
@@ -69,20 +57,3 @@ async def explore(update: Update, context: CallbackContext):
             "🔍 You explored the area but found nothing this time. Better luck next time! 🍀",
             parse_mode="Markdown"
         )
-
-# Command to view inventory
-async def inventory(update: Update, context: CallbackContext):
-    user_id = update.message.from_user.id
-    user_inv = get_inventory(user_id)  # Get the user's inventory
-
-    if user_inv:
-        items_str = "\n".join([f"{item}: {count}" for item, count in user_inv.items()])
-        await update.message.reply_text(
-            f"🧳 *Your Inventory:*\n\n{items_str}",
-            parse_mode="Markdown"
-        )
-    else:
-        await update.message.reply_text(
-            "🧳 Your inventory is empty. Keep exploring to find items! 🍀",
-            parse_mode="Markdown"
-    )
