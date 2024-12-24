@@ -62,19 +62,25 @@ async def process_battle_action(action, player_data, enemy_data):
         else:
             return "❌ You failed to flee, and the battle continues! 😓"
 
-    return "❓ Invalid action."
+    return "❓ Invalid action."  # Default case for unexpected action
 
 
 # Define callback for handling the battle actions
 async def handle_battle_action(update: Update, context: CallbackContext):
     query = update.callback_query
-    await query.answer()  # Immediately acknowledge the button press
+    await query.answer()  # Acknowledge the button press
 
     # Fetch player and enemy data from context
-    player_data = context.user_data.get("player_data", {"health": 100})
+    player_data = context.user_data.get("player_data", {"health": 100, "name": "Player"})
     enemy_data = context.user_data.get("enemy_data", {"health": 100, "name": "Enemy"})
 
-    action = query.data  # Action from callback_data (either "attack" or "flee")
+    action = query.data  # Extract action from the button's callback data
+
+    # Check if action is valid and execute
+    if action not in ["attack", "flee"]:
+        await query.edit_message_text("❓ Invalid selection! Please choose a valid action.", parse_mode="Markdown")
+        return
+
     battle_result = await process_battle_action(action, player_data, enemy_data)
 
     # Update the battle message with the result of the action
@@ -83,3 +89,11 @@ async def handle_battle_action(update: Update, context: CallbackContext):
     # Update context with the latest player and enemy data
     context.user_data["player_data"] = player_data
     context.user_data["enemy_data"] = enemy_data
+
+    # After processing action, recreate the battle UI for new possible actions
+    updated_battle_message, updated_reply_markup = create_battle_ui(
+        player_data["health"], enemy_data["health"], enemy_data["name"]
+    )
+
+    # Edit the message with the new battle status and action buttons
+    await query.edit_message_text(updated_battle_message, parse_mode="Markdown", reply_markup=updated_reply_markup)
