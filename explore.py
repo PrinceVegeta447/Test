@@ -1,7 +1,7 @@
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.ext import CommandHandler, CallbackContext
 import random  # Import inventory functions
-from inventory import add_item
+from inventory import add_item, get_inventory, clear_inventory
 # Define the developer's Telegram user ID (replace with your actual ID)
 DEVELOPER_ID = 123456789  # Your developer Telegram ID
 
