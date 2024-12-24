@@ -57,3 +57,18 @@ async def explore(update: Update, context: CallbackContext):
             "🔍 You explored the area but found nothing this time. Better luck next time! 🍀",
             parse_mode="Markdown"
         )
+async def inventory(update: Update, context: CallbackContext):
+    user_id = update.message.from_user.id
+    user_inv = get_inventory(user_id)  # Get the user's inventory
+
+    if user_inv:
+        items_str = "\n".join([f"{item}: {count}" for item, count in user_inv.items()])
+        await update.message.reply_text(
+            f"ðŸ§³ *Your Inventory:*\n\n{items_str}",
+            parse_mode="Markdown"
+        )
+    else:
+        await update.message.reply_text(
+            "ðŸ§³ Your inventory is empty. Keep exploring to find items! ðŸ€",
+            parse_mode="Markdown"
+        )
