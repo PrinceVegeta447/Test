@@ -34,8 +34,7 @@ def main():
     application.add_handler(CommandHandler("viewch", viewch))  # Add the view_character handler
     application.add_handler(CallbackQueryHandler(character_callback))
     application.add_handler(CommandHandler("explore", explore))
-    application.add_handler(CommandHandler("inventory", inventory))
-    application.add_handler(CallbackQueryHandler(battle, pattern=r"^battle_.*$"))  # Trigger battle when enemy encountered
+    application.add_handler(CommandHandler("inventory", inventor  # Trigger battle when enemy encountered
     application.add_handler(CallbackQueryHandler(handle_battle_action, pattern=r"^(attack|defend|run)$"))  # Battle action handlers
     
     # Start polling
