@@ -142,7 +142,7 @@ async def battle(update: Update, context: CallbackContext):
         await query.edit_message_text(battle_result, parse_mode="Markdown")
 
     # Command to view inventory
-  async def inventory(update: Update, context: CallbackContext):
+   async def inventory(update: Update, context: CallbackContext):
     user_id = update.message.from_user.id
     user_inv = get_inventory(user_id)  # Get the user's inventory
 
