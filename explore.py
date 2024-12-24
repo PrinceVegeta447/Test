@@ -37,7 +37,8 @@ async def battle_button(update: Update, context: CallbackContext):
     
     # Get the enemy name from the callback data
     enemy = query.data
-    
+    print(f"Battle initiated with: {enemy}")  # Debugging line to check the enemy name
+
     # Start the battle
     await battle(update, context, enemy)
 
