@@ -54,7 +54,7 @@ async def explore(update: Update, context: CallbackContext):
         
         # Create an inline button for battle
         keyboard = [
-            [InlineKeyboardButton("Battle", callback_data=enemy_encountered)]
+            [InlineKeyboardButton("Battle", callback_data=enemy_encountered)]  # Use the enemy's name as callback data
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
         
