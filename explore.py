@@ -3,6 +3,7 @@ from telegram.ext import CallbackContext
 import random
 from inventory import add_item, get_inventory
 from battle import create_battle_ui
+
 # Example items and enemies
 items = ["Zeni 💰", "Senzu Bean 🍚"]
 enemies = ["Frieza 👑", "Cell 🟢", "Majin Buu 🍬"]
@@ -38,21 +39,18 @@ async def explore(update: Update, context: CallbackContext):
         context.user_data["enemy_data"] = enemy_data
 
         # Initialize player data
-        context.user_data["player_data"] = {"health": 100}   
+        context.user_data["player_data"] = {"health": 100}
 
- if event_type == "enemy":
-    enemy_encountered = random.choice(list(enemies.keys()))
-    player_hp = 100
-    enemy_hp = enemies[enemy_encountered]["HP"]
+        # Generate battle UI using create_battle_ui from battle.py
+        player_hp = 100
+        enemy_hp = 100
+        battle_message, reply_markup = create_battle_ui(player_hp, enemy_hp)
 
-    # Generate battle UI using create_battle_ui from battle.py
-    battle_message, reply_markup = create_battle_ui(player_hp, enemy_hp)
-
-    await update.message.reply_text(
-        battle_message,
-        parse_mode="Markdown",
-        reply_markup=reply_markup
-    )
+        await update.message.reply_text(
+            battle_message,
+            parse_mode="Markdown",
+            reply_markup=reply_markup
+        )
 
         # Create an inline button for battle
         keyboard = [
@@ -72,7 +70,6 @@ async def explore(update: Update, context: CallbackContext):
             parse_mode="Markdown"
         )
 
-
 # Command to view inventory
 async def inventory(update: Update, context: CallbackContext):
     user_id = update.message.from_user.id
@@ -88,4 +85,4 @@ async def inventory(update: Update, context: CallbackContext):
         await update.message.reply_text(
             "🧳 Your inventory is empty. Keep exploring to find items! 🍀",
             parse_mode="Markdown"
-        )
+    )
