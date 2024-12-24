@@ -2,7 +2,7 @@ import json
 from telegram.ext import Application, CommandHandler, CallbackQueryHandler, CallbackContext
 from play import play, character_callback
 from view import viewch
-from explore import explore
+from explore import explore, inventory
 from inventory import add_item, get_inventory, clear_inventory
 import logging
 
@@ -34,6 +34,10 @@ def main():
     application.add_handler(CallbackQueryHandler(character_callback))
     application.add_handler(CommandHandler("explore", explore))
     application.add_handler(CommandHandler("inventory", inventory))
+    
+    # Developer only commands
+    application.add_handler(CommandHandler("add_item", add_item_command))
+    application.add_handler(CommandHandler("clear_inventory", clear_inventory_command))
     # Start polling
     application.run_polling()
 
