@@ -3,11 +3,11 @@ from telegram.ext import CallbackContext
 import random
 
 # Define initial battle stats
-def create_battle_ui(enemy_name):
+def create_battle_ui(player_hp, enemy_hp, enemy_name):
     battle_message = (
         f"⚔️ You are battling *{enemy_name}*! ⚔️\n\n"
         "🛡️ *Your Stats:*\n"
-        "Health: 100\n\n"
+        "Health: 
         "💥 *Enemy Stats:*\n"
         "Health: 100\n"
         "Attack: 15\n\n"
