@@ -27,8 +27,10 @@ def create_battle_ui(player_hp, enemy_hp, enemy_name):
 # Process the battle actions
 async def process_battle_action(action, player_data, enemy_data):
     if action == "attack":
+        # Player attacks
         player_attack = random.randint(10, 20)
         enemy_data["health"] -= player_attack
+
         if enemy_data["health"] <= 0:
             return (
                 f"🎉 You attacked and defeated *{enemy_data['name']}*! 🎉\n"
@@ -38,6 +40,7 @@ async def process_battle_action(action, player_data, enemy_data):
         # Enemy's turn to attack
         enemy_attack = random.randint(5, 15)
         player_data["health"] -= enemy_attack
+
         if player_data["health"] <= 0:
             return (
                 f"💀 You attacked *{enemy_data['name']}* but were defeated. 💀\n"
@@ -65,15 +68,13 @@ async def process_battle_action(action, player_data, enemy_data):
 # Define callback for handling the battle actions
 async def handle_battle_action(update: Update, context: CallbackContext):
     query = update.callback_query
-    await query.answer()
+    await query.answer()  # Immediately acknowledge the button press
 
     # Fetch player and enemy data from context
     player_data = context.user_data.get("player_data", {"health": 100})
-    enemy_data = context.user_data.get(
-        "enemy_data", {"health": 100, "name": "Enemy"}
-    )
+    enemy_data = context.user_data.get("enemy_data", {"health": 100, "name": "Enemy"})
 
-    action = query.data  # Action from callback_data
+    action = query.data  # Action from callback_data (either "attack" or "flee")
     battle_result = await process_battle_action(action, player_data, enemy_data)
 
     # Update the battle message with the result of the action
